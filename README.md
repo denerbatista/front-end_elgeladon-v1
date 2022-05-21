@@ -21,11 +21,12 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - HTML
 - CSS
 - JavaScript Vanilla
+- Express
 - NodeJS
 
 ## :information_source: Layout
  
-Você pode visualizar o layout do projeto através desse link: https://denerbatista.github.io/api-El-Geladon/
+Você pode visualizar o layout do projeto através desse link: https://denerbatista.github.io/front-end_elgeladon-v1/
 
 ## :memo: Licença
 
