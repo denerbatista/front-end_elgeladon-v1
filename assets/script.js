@@ -1,4 +1,4 @@
-const baseURL = 'https://api-el-geladon-v1.onrender.com';
+const baseURL = 'https://api-el-geladon-v1.onrender.com/paletas';
 // const baseURL = 'http://localhost:3000/paletas';
 
 function modalErrorA() {
