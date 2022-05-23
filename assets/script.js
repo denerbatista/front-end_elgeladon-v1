@@ -1,5 +1,5 @@
-const baseURL = 'https://api-el-geladon-v1.onrender.com/paletas';
-// const baseURL = "http://localhost:3000/paletas";
+// const baseURL = 'https://api-el-geladon-v1.onrender.com/paletas';
+const baseURL = "http://localhost:3000/paletas";
 
 function modalErrorA() {
   const modalError = document.querySelector(".modalError");
@@ -122,6 +122,7 @@ async function createPaleta() {
   const preco = document.querySelector("#preco").value;
   const descricao = document.querySelector("#descricao").value;
   const foto = document.querySelector("#foto").value;
+  const token = localStorage.getItem("token");
 
   const paleta = {
     id,
@@ -131,7 +132,7 @@ async function createPaleta() {
     foto,
   };
   const modoEdicaoAtivado = id > 0;
-  const endpoint = baseURL + (modoEdicaoAtivado ? `/update/${id}` : `/create`);
+  const endpoint = baseURL + (modoEdicaoAtivado ? `/update/${id},${token}` : `/create/${token}`);
   const response = await fetch(endpoint, {
     method: modoEdicaoAtivado ? "put" : "post",
     headers: {
@@ -172,7 +173,8 @@ function fecharModalDelete() {
 }
 
 async function deletePaleta(id) {
-  const response = await fetch(`${baseURL}/delete/${id}`, {
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${baseURL}/delete/${id},${token}`, {
     method: "delete",
     headers: {
       "Content-Type": "application/json",
@@ -211,8 +213,8 @@ async function verificaSeguranca(resposta) {
 }
 
 async function enviarSenha() {
-  var senha = await document.querySelector("#senhaSeguranca").value;
-  var token = localStorage.getItem("token");
+  const senha = await document.querySelector("#senhaSeguranca").value;
+  const token = localStorage.getItem("token");
   if (senha != "") {
     const response = await fetch(`${baseURL}/seguranca/${senha},${Number(token)}`);
 
