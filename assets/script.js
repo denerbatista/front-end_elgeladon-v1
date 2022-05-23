@@ -111,7 +111,7 @@ function fecharModal() {
   document.querySelector(".modal-overlay").style.display = "none";
   document.querySelector("#id").value = "";
   document.querySelector("#sabor").value = "";
-  document.querySelector("#preco").value = 0;
+  document.querySelector("#preco").value = "";
   document.querySelector("#descricao").value = "";
   document.querySelector("#foto").value = "";
 }
@@ -148,27 +148,37 @@ async function createPaleta() {
     receberMensagem(novaPaleta);
   } else {
     if (modoEdicaoAtivado) {
+      fecharModal();
       findAllPaletas();
       const mensagem = { mensagem: "Paleta editada com sucesso!" };
       receberMensagem(mensagem);
     } else {
+      fecharModal();
       findAllPaletas();
       const mensagem = { mensagem: "Paleta adicionada com sucesso!" };
       receberMensagem(mensagem);
     }
-    fecharModal();
   }
 }
 
 function abrirModalDelete(id) {
+
+  
+  document.querySelector(".btns_delete").insertAdjacentHTML("beforeend",`
+
+    <button
+                class="btn_delete_no btn_delete"
+                onclick="fecharModalDelete()"
+              >
+                Não
+              </button>
+              <button onclick="deletePaleta(${id})" class="btn_delete_yes btn_delete">Sim</button>`
+  );
   document.querySelector("#overlay-delete").style.display = "flex";
-  const btnSim = document.querySelector(".btn_delete_yes");
-  btnSim.addEventListener("click", function () {
-    deletePaleta(id);
-  });
 }
 
 function fecharModalDelete() {
+  document.querySelector(".btns_delete").innerHTML=""
   document.querySelector("#overlay-delete").style.display = "none";
 }
 
@@ -182,7 +192,7 @@ async function deletePaleta(id) {
     mode: "cors",
   });
 
-  const result = await response.json();
+  const result = await response.json()
 
   if (result.mensagem) {
     fecharModalDelete();
