@@ -1,18 +1,18 @@
 const baseURL = 'https://api-el-geladon-v1.onrender.com/paletas';
-// const baseURL = 'http://localhost:3000/paletas';
+// const baseURL = "http://localhost:3000/paletas";
 
 function modalErrorA() {
-  const modalError = document.querySelector('.modalError');
-  modalError.style.display = 'block';
+  const modalError = document.querySelector(".modalError");
+  modalError.style.display = "block";
 }
 
 function modalErrorF() {
-  const modalError = document.querySelector('.modalError');
-  modalError.style.display = 'none';
+  const modalError = document.querySelector(".modalError");
+  modalError.style.display = "none";
 }
 
 function receberMensagem(array) {
-  document.querySelector('#mensagemError').innerText = `${array.mensagem}`;
+  document.querySelector("#mensagemError").innerText = `${array.mensagem}`;
   modalErrorA();
   setTimeout(() => {
     modalErrorF();
@@ -26,10 +26,10 @@ async function findAllPaletas() {
   if (paletas.mensagem) {
     receberMensagem(paletas);
   } else {
-    document.querySelector('#paletaList').innerHTML = '';
+    document.querySelector("#paletaList").innerHTML = "";
     paletas.forEach(function (paleta) {
-      document.querySelector('#paletaList').insertAdjacentHTML(
-        'beforeend',
+      document.querySelector("#paletaList").insertAdjacentHTML(
+        "beforeend",
         `
       <div class="PaletaListaItem" id="PaletaListaItem_${paleta.id}"><div>
             <div class="PaletaListaItem__sabor">${paleta.sabor}</div>
@@ -44,21 +44,21 @@ async function findAllPaletas() {
         
         <img class="PaletaListaItem__foto" src="${paleta.foto}" alt="Paleta de ${paleta.sabor}" />
     </div>
-    `,
+    `
       );
     });
   }
 }
 
 async function findPaletaById() {
-  const id = document.querySelector('#idPaleta').value;
+  const id = document.querySelector("#idPaleta").value;
 
   const response = await fetch(`${baseURL}/find-paleta/${id}`);
   const paleta = await response.json();
   if (paleta.mensagem) {
     receberMensagem(paleta);
   } else {
-    const paletaEscolhidaDiv = document.querySelector('#paletaEscolhida');
+    const paletaEscolhidaDiv = document.querySelector("#paletaEscolhida");
 
     paletaEscolhidaDiv.innerHTML = `
   <div class="PaletaCardItem" id="PaletaListaItem_${paleta.id}">
@@ -79,49 +79,49 @@ async function findPaletaById() {
 }
 
 function fecharPaleta() {
-  const paletaEscolhidaDiv = document.querySelector('#paletaEscolhida');
-  const idPaleta = document.querySelector('#idPaleta');
-  idPaleta.value = '';
-  paletaEscolhidaDiv.innerHTML = '';
+  const paletaEscolhidaDiv = document.querySelector("#paletaEscolhida");
+  const idPaleta = document.querySelector("#idPaleta");
+  idPaleta.value = "";
+  paletaEscolhidaDiv.innerHTML = "";
 }
 
 async function abrirModal(id = null) {
   if (id != null) {
-    document.querySelector('#title-header-modal').innerText =
-      'Atualizar uma Paleta';
-    document.querySelector('#button-form-modal').innerText = 'Atualizar';
+    document.querySelector("#title-header-modal").innerText =
+      "Atualizar uma Paleta";
+    document.querySelector("#button-form-modal").innerText = "Atualizar";
 
     const response = await fetch(`${baseURL}/find-paleta/${id}`);
     const paleta = await response.json();
 
-    document.querySelector('#sabor').value = paleta.sabor;
-    document.querySelector('#preco').value = paleta.preco;
-    document.querySelector('#descricao').value = paleta.descricao;
-    document.querySelector('#foto').value = paleta.foto;
-    document.querySelector('#id').value = paleta.id;
+    document.querySelector("#sabor").value = paleta.sabor;
+    document.querySelector("#preco").value = paleta.preco;
+    document.querySelector("#descricao").value = paleta.descricao;
+    document.querySelector("#foto").value = paleta.foto;
+    document.querySelector("#id").value = paleta.id;
   } else {
-    document.querySelector('#title-header-modal').innerText =
-      'Cadastrar uma Paleta';
-    document.querySelector('#button-form-modal').innerText = 'Cadastrar';
+    document.querySelector("#title-header-modal").innerText =
+      "Cadastrar uma Paleta";
+    document.querySelector("#button-form-modal").innerText = "Cadastrar";
   }
-  document.querySelector('#overlay').style.display = 'flex';
+  document.querySelector("#overlay").style.display = "flex";
 }
 
 function fecharModal() {
-  document.querySelector('.modal-overlay').style.display = 'none';
-  document.querySelector('#id').value = '';
-  document.querySelector('#sabor').value = '';
-  document.querySelector('#preco').value = 0;
-  document.querySelector('#descricao').value = '';
-  document.querySelector('#foto').value = '';
+  document.querySelector(".modal-overlay").style.display = "none";
+  document.querySelector("#id").value = "";
+  document.querySelector("#sabor").value = "";
+  document.querySelector("#preco").value = 0;
+  document.querySelector("#descricao").value = "";
+  document.querySelector("#foto").value = "";
 }
 
 async function createPaleta() {
-  const id = document.querySelector('#id').value;
-  const sabor = document.querySelector('#sabor').value;
-  const preco = document.querySelector('#preco').value;
-  const descricao = document.querySelector('#descricao').value;
-  const foto = document.querySelector('#foto').value;
+  const id = document.querySelector("#id").value;
+  const sabor = document.querySelector("#sabor").value;
+  const preco = document.querySelector("#preco").value;
+  const descricao = document.querySelector("#descricao").value;
+  const foto = document.querySelector("#foto").value;
 
   const paleta = {
     id,
@@ -133,11 +133,11 @@ async function createPaleta() {
   const modoEdicaoAtivado = id > 0;
   const endpoint = baseURL + (modoEdicaoAtivado ? `/update/${id}` : `/create`);
   const response = await fetch(endpoint, {
-    method: modoEdicaoAtivado ? 'put' : 'post',
+    method: modoEdicaoAtivado ? "put" : "post",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    mode: 'cors',
+    mode: "cors",
     body: JSON.stringify(paleta),
   });
   const novaPaleta = await response.json();
@@ -148,11 +148,11 @@ async function createPaleta() {
   } else {
     if (modoEdicaoAtivado) {
       findAllPaletas();
-      const mensagem = { mensagem: 'Paleta editada com sucesso!' };
+      const mensagem = { mensagem: "Paleta editada com sucesso!" };
       receberMensagem(mensagem);
     } else {
       findAllPaletas();
-      const mensagem = { mensagem: 'Paleta adicionada com sucesso!' };
+      const mensagem = { mensagem: "Paleta adicionada com sucesso!" };
       receberMensagem(mensagem);
     }
     fecharModal();
@@ -160,24 +160,24 @@ async function createPaleta() {
 }
 
 function abrirModalDelete(id) {
-  document.querySelector('#overlay-delete').style.display = 'flex';
-  const btnSim = document.querySelector('.btn_delete_yes');
-  btnSim.addEventListener('click', function () {
+  document.querySelector("#overlay-delete").style.display = "flex";
+  const btnSim = document.querySelector(".btn_delete_yes");
+  btnSim.addEventListener("click", function () {
     deletePaleta(id);
   });
 }
 
 function fecharModalDelete() {
-  document.querySelector('#overlay-delete').style.display = 'none';
+  document.querySelector("#overlay-delete").style.display = "none";
 }
 
 async function deletePaleta(id) {
   const response = await fetch(`${baseURL}/delete/${id}`, {
-    method: 'delete',
+    method: "delete",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    mode: 'cors',
+    mode: "cors",
   });
 
   const result = await response.json();
@@ -190,48 +190,51 @@ async function deletePaleta(id) {
 }
 
 function abrirModalSeguranca() {
-  document.querySelector('#overlay-seguranca').style.display = 'flex';
+  document.querySelector("#overlay-seguranca").style.display = "flex";
 }
 
 function fecharModalSeguranca() {
-  document.querySelector('#overlay-seguranca').style.display = 'none';
-  document.querySelector('#senhaSeguranca').value = '';
+  document.querySelector("#overlay-seguranca").style.display = "none";
+  document.querySelector("#senhaSeguranca").value = "";
 }
 
-async function mudarTextoBalao() {
-  const div = document.querySelector('.dicaTexto');
-  const cadeado = await verificaSeguranca();
-  console.log(cadeado)
-  cadeado
-    ? (div.innerText = 'Clique no cadeado para bloquear edição')
-    : (div.innerText = 'Clique no cadeado para desbloquear edição');
-}
-
-async function verificaSeguranca() {
-  const response = await fetch(`${baseURL}/seguranca`);
-  const cadeado = await response.json();
-  const verificador = cadeado.mensagem == 'Aberto';
+async function verificaSeguranca(resposta) {
+  const cadeado = resposta
+  const verificador = cadeado == "Acesso Liberado";
   verificador
-    ? (document.querySelector('#seguranca').src =
-        'https://cdn-icons-png.flaticon.com/512/193/193220.png')
-    : (document.querySelector('#seguranca').src =
-        'https://cdn-icons-png.flaticon.com/512/1417/1417897.png');
+    ? (document.querySelector("#seguranca").src =
+        "https://cdn-icons-png.flaticon.com/512/193/193220.png")
+    : (document.querySelector("#seguranca").src =
+        "https://cdn-icons-png.flaticon.com/512/1417/1417897.png");
 
   return verificador;
 }
 
 async function enviarSenha() {
-  const digitado = document.querySelector('#senhaSeguranca').value;
-  if (digitado != '') {
-    const response = await fetch(`${baseURL}/seguranca/${digitado}`);
-    const senha = await response.json();
+  var senha = await document.querySelector("#senhaSeguranca").value;
+  var token = localStorage.getItem("token");
+  if (senha != "") {
+    const response = await fetch(`${baseURL}/seguranca/${senha},${Number(token)}`);
+
+    const senhaR = await response.json();
+    localStorage.setItem("token", `${Number(senhaR.token)}`);
     fecharModalSeguranca();
-    receberMensagem(senha);
-    mudarTextoBalao();
-    // verificaSeguranca();
+    verificaSeguranca(senhaR.mensagem)
+    receberMensagem(senhaR);
+    console.log(senhaR.mensagem)
+    console.log(senhaR.token);
   }
 }
 
+async function verificarUsuario() {
+  const digitado = localStorage.getItem("token");
+  const response = await fetch(
+    `${baseURL}/segurancaverific/${Number(digitado)}`
+  );
+  const verificador = await response.json();
+  localStorage.setItem("token", `${Number(verificador.token)}`);
+  alert(verificador.mensagem);
+  console.log(Number(verificador.token));
+}
+
 findAllPaletas();
-// verificaSeguranca();
-mudarTextoBalao()
